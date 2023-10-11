@@ -1,0 +1,79 @@
+{
+	"Tickers": {
+		"DC": {
+			"Name": "Defense Consolidated",
+			"Description": "As the cold war receedes and the threat from the east shrink the call for lower defense spending is now louder than ever. What was once a thriving industry has now consolidated to one large, but weak corporation.",
+			"Prices": {
+				"1-1-1990": {
+					"Open": "12.4",
+					"BuyVolume": "3000",
+					"SellVolume": "2000",
+					"Shares": "80000",
+					"High":"12.7",
+					"Low":"12.3",
+					"Close":"12.5"
+				}
+			}
+		},
+		"S": {
+			"Name": "Retail Consolidated",
+			"Description": "A common retail store chain littered across all the country. Nearly every exit on the interstate leads to one of their subsidiaries. The recession forced them to sell some of their divisions but they still stand strong.",
+			"Prices": {
+				"1-1-1990": {
+					"Open": "21",
+					"BuyVolume": "300",
+					"SellVolume": "12000",
+					"Shares": "450000",
+					"High":"12.7",
+					"Low":"12.3",
+					"Close":"12.5"
+				}
+			}
+		},
+		"B": {
+			"Name": "First Patriot Bank",
+			"Description": "A new era bank founded two centuries ago. Through numerous mergers, aquistions, and name changes, they finally ended up leaning into their origins. Ironic the name as most of their investments have now migrated to foreign businesses.",
+			"Prices": {
+				"1-1-1990": {
+					"Open": "22",
+					"BuyVolume": "30000",
+					"SellVolume": "12000",
+					"Shares": "4000000",
+					"High":"12.7",
+					"Low":"12.3",
+					"Close":"12.5"
+				}
+			}
+		},
+		"IC": {
+			"Name": "Industry Consolidated",
+			"Description": "A goliath of manufacturing within this country and across the world, their logo used to be stamped on everything until oriental manufacturing flooded the market.",
+			"Prices": {
+				"1-1-1990": {
+					"Open": "41",
+					"BuyVolume": "3000",
+					"SellVolume": "40000",
+					"Shares": "12000000",
+					"High":"12.7",
+					"Low":"12.3",
+					"Close":"12.5"
+				}
+			}
+		},
+		"SM": {
+			"Name": "Specific Motors",
+			"Description": "A company founded at the right place at the right time, it aquired and consolidated all their competitions, becoming one of the last 3 automobile makers in this country. Although makers from the orients have shaken investor confidence, they have proven that their political invetments can pay back in dividends.",
+			"Prices": {
+				"1-1-1990": {
+					"Open": "41",
+					"BuyVolume": "30000",
+					"SellVolume": "12000",
+					"Shares": "60000000",
+					"High":"12.7",
+					"Low":"12.3",
+					"Close":"12.5"
+				}
+			}
+		}
+	}
+}

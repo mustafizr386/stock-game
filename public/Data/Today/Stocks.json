@@ -1,0 +1,64 @@
+{
+	"Tickers": {
+		"DC": {
+			"Name": "Defense Consolidated",
+			"Open": "12",
+			"Prices": {
+				"9:30": {
+					"Price": "12.5",
+					"BuyVolume": "3000",
+					"SellVolume": "2000",
+					"Shares": "80000"
+				}
+			}
+		},
+		"S": {
+			"Name": "Retail Consolidated",
+			"Open": "22",
+			"Prices": {
+				"9:30": {
+					"Price": "21",
+					"BuyVolume": "300",
+					"SellVolume": "12000",
+					"Shares": "450000"
+				}
+			}
+		},
+		"B": {
+			"Name": "First Patriot Bank",
+			"Open": "20",
+			"Prices": {
+				"9:30": {
+					"Price": "22",
+					"BuyVolume": "30000",
+					"SellVolume": "12000",
+					"Shares": "4000000"
+				}
+			}
+		},
+		"IC": {
+			"Name": "Industry Consolidated",
+			"Open": "8",
+			"Prices": {
+				"9:30": {
+					"Price": "41",
+					"BuyVolume": "3000",
+					"SellVolume": "40000",
+					"Shares": "12000000"
+				}
+			}
+		},
+		"SM": {
+			"Name": "Specific Motors",
+			"Open": "85",
+			"Prices": {
+				"9:30": {
+					"Price": "41",
+					"BuyVolume": "30000",
+					"SellVolume": "12000",
+					"Shares": "60000000"
+				}
+			}
+		}
+	}
+}
