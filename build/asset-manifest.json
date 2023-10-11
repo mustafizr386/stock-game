@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e282c3ce.css",
+    "main.js": "/static/js/main.36750c9c.js",
+    "static/js/787.b98c23e5.chunk.js": "/static/js/787.b98c23e5.chunk.js",
+    "static/media/Brakes.jpg": "/static/media/Brakes.8c732e993ad1ae8a1025.jpg",
+    "static/media/RockClimb.jpg": "/static/media/RockClimb.9dc3d491ef7fcb4adf6d.jpg",
+    "static/media/CarPosterCollage.jpg": "/static/media/CarPosterCollage.b86c29376d40784f8c5a.jpg",
+    "index.html": "/index.html",
+    "main.e282c3ce.css.map": "/static/css/main.e282c3ce.css.map",
+    "main.36750c9c.js.map": "/static/js/main.36750c9c.js.map",
+    "787.b98c23e5.chunk.js.map": "/static/js/787.b98c23e5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e282c3ce.css",
+    "static/js/main.36750c9c.js"
+  ]
+}
