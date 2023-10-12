@@ -1,5 +1,4 @@
-import React, { useState, createElement } from 'react';
-import { useSpring, animated } from 'react-spring';
+import React from 'react';
 import './Pages.css';
 
 const Banner = () => {

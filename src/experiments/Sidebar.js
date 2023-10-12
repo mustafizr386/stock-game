@@ -1,6 +1,6 @@
 // Sidebar.js
 
-import React, { useState, createElement } from 'react';
+import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import './Sidebar.css';
 
@@ -19,9 +19,6 @@ const Sidebar = () => {
 
 
 
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
 
   const collapse = () => {
     setDisplayText('+');

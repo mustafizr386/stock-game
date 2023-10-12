@@ -1,9 +1,5 @@
-/* global google */
-import React, { useState, createElement } from 'react';
-import { useSpring, animated } from 'react-spring';
-import ReactDOM from "react-dom";
+import React, { useState } from 'react';
 import './Pages.css';
-import TypingEffect from './effects/TypingEffect';
 
 
 const Contact = () => {
@@ -11,26 +7,29 @@ const Contact = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [bounce, setDebounce] = useState(false);
 
+    const [timer, setTimer] = useState(null);
 
 
     const handleClick = (event) => {
         if (!bounce) {
             setDebounce(true);
-            if (event.target.id == "Contact") {
+            if (event.target.id === "Contact") {
 
                 setIsHidden(false);
-                const timer = setTimeout(() => {
+                setTimer(setTimeout(() => {
                     setIsVisible(true);
-                }, 1000);
+                }, 1000));
 
+                return () => clearTimeout(timer);
             }
-            else if (event.target.id && event.target.tagName == "LI") {
+            else if (event.target.id && event.target.tagName === "LI") {
 
                 setIsVisible(false);
-                const timer = setTimeout(() => {
+                setTimer(setTimeout(() => {
                     setIsHidden(true);
-                }, 500);
+                }, 500));
 
+                return () => clearTimeout(timer);
             }
         }
     };

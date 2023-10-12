@@ -1,8 +1,5 @@
-import React, { useState, createElement } from 'react';
-import { useSpring, animated } from 'react-spring';
-import ReactDOM from "react-dom";
+import React, { useState } from 'react';
 import './Pages.css';
-import ReactCardFlip from 'react-card-flip';
 import FlipCard from './effects/FlipCard';
 
 const Skills = () => {
@@ -17,8 +14,10 @@ const Skills = () => {
     const [VBA, VBAFlipped] = useState(false);
     const [Lua, LuaFlipped] = useState(false);
 
+    const [timer, setTimer] = useState(null);
+
   const handleCardClick = (event) => {
-      if (!isHidden & event.target.tagName != "LI") {
+      if (!isHidden & event.target.tagName !== "LI") {
         
           if (event.target.id === "Java") {
               JavaFlipped(!Java);
@@ -45,17 +44,19 @@ const Skills = () => {
             if (event.target.id === "Skills") {
 
                 setIsHidden(false);
-                const timer = setTimeout(() => {
+                setTimer(setTimeout(() => {
                     setIsVisible(true);
-                }, 1000);
+                }, 1000));
+                return () => clearTimeout(timer);
 
             }
-            else if (event.target.id && event.target.tagName == "LI") {
+            else if (event.target.id && event.target.tagName === "LI") {
 
                 setIsVisible(false);
-                const timer = setTimeout(() => {
+                setTimer(setTimeout(() => {
                     setIsHidden(true);
-                }, 500);
+                }, 500));
+                return () => clearTimeout(timer);
 
             }
         }

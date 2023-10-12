@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import React from 'react';
 import './App.css';
 
 
 import Sidebar from './experiments/Sidebar';
-import Banner from './experiments/Banner';
 import Home from './experiments/Home';
 import AboutMe from './experiments/About Me';
 import Skills from './experiments/Skills';
