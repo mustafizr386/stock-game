@@ -1,62 +1,90 @@
 {
 	"Tickers": {
 		"DC": {
-			"Name": "Defense Consolidated",
-			"Open": "12",
+			"Name": "Defense Consolidated",			
 			"Prices": {
 				"9:30": {
-					"Price": "12.5",
+					"Open": "12",
+					"Close": "12.5",
 					"BuyVolume": "3000",
 					"SellVolume": "2000",
-					"Shares": "80000"
+					"Shares": "80000",
+					"High": "12.6",
+					"Low": "11.8"
+				},
+				"10:00": {
+					"Open": "12.5",
+					"Close": "13.5",
+					"BuyVolume": "3000",
+					"SellVolume": "2000",
+					"Shares": "80000",
+					"High": "13.8",
+					"Low": "12.2"
+				},
+				"10:30": {
+					"Open": "13.5",
+					"Close": "15.5",
+					"BuyVolume": "3000",
+					"SellVolume": "2000",
+					"Shares": "80000",
+					"High": "16",
+					"Low": "13.2"
 				}
 			}
 		},
 		"S": {
-			"Name": "Retail Consolidated",
-			"Open": "22",
+			"Name": "Retail Consolidated",	
 			"Prices": {
 				"9:30": {
-					"Price": "21",
+					"Open": "22",
+					"Close": "21",
 					"BuyVolume": "300",
 					"SellVolume": "12000",
-					"Shares": "450000"
+					"Shares": "450000",
+					"High": "23",
+					"Low": "20"
 				}
 			}
 		},
 		"B": {
 			"Name": "First Patriot Bank",
-			"Open": "20",
 			"Prices": {
 				"9:30": {
-					"Price": "22",
+					"Open": "20",
+					"Close": "22",
 					"BuyVolume": "30000",
 					"SellVolume": "12000",
-					"Shares": "4000000"
+					"Shares": "4000000",
+					"High": "23",
+					"Low": "19"
 				}
 			}
 		},
 		"IC": {
-			"Name": "Industry Consolidated",
-			"Open": "8",
+			"Name": "Industry Consolidated",			
 			"Prices": {
 				"9:30": {
-					"Price": "41",
+					"Open": "8",
+					"Close": "41",
 					"BuyVolume": "3000",
 					"SellVolume": "40000",
-					"Shares": "12000000"
+					"Shares": "12000000",
+					"High": "41",
+					"Low": "7.9"
 				}
 			}
 		},
 		"SM": {
-			"Name": "Specific Motors",
-			"Open": "85",
+			"Name": "Specific Motors",			
 			"Prices": {
 				"9:30": {
-					"Price": "41",
+					"Open": "85",
+					"Close": "41",
 					"BuyVolume": "30000",
 					"SellVolume": "12000",
-					"Shares": "60000000"
+					"Shares": "60000000",
+					"High": "86",
+					"Low": "40"
 				}
 			}
 		}
