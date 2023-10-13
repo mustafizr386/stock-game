@@ -4,9 +4,9 @@ import './App.css';
 
 import Sidebar from './experiments/Sidebar';
 import Home from './experiments/Home';
-import AboutMe from './experiments/About Me';
-import Skills from './experiments/Skills';
-import Hobbies from './experiments/Hobbies';
+import Portfolio from './experiments/Portfolio';
+import News from './experiments/News';
+import Market from './experiments/Market';
 import Contact from './experiments/Contact';
 
 
@@ -18,10 +18,10 @@ function App() {
         <div className="App">
             
             <Home />
-            <AboutMe />
-            <Skills />
+            <Portfolio />
+            <News />
             
-            <Hobbies />
+            <Market />
             
             <Contact />
             <Sidebar />

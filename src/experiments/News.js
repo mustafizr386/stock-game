@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Pages.css';
 import FlipCard from './effects/FlipCard';
 
-const Skills = () => {
+const News = () => {
     const [isHidden, setIsHidden] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [bounce, setDebounce] = useState(false);
@@ -41,7 +41,7 @@ const Skills = () => {
         if (!bounce) {
 
             setDebounce(true);
-            if (event.target.id === "Skills") {
+            if (event.target.id === "News") {
 
                 setIsHidden(false);
                 setTimer(setTimeout(() => {
@@ -102,4 +102,4 @@ const Skills = () => {
 };
 
 
-export default Skills;
+export default News;

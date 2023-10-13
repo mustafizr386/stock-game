@@ -13,21 +13,13 @@ const Portfolio = () => {
 
         if (!bounce) {
             setDebounce(true);
-            if (event.target.id === "Home") {
-
-                setIsHidden(false);
-                setTimer(setTimeout(() => {
-                    setIsVisible(true);
-                }, 1000))
-                return () => clearTimeout(timer);
-            }
-            else if (event.target.id && event.target.tagName === "LI") {
+            if (event.target.id && event.target.tagName === "LI") {
 
                 setIsVisible(false);
                 setTimer(setTimeout(() => {
                     setIsHidden(true);
                 }, 500))
-                return () => clearTimeout(timer);
+                //return () => clearTimeout(timer);
             }
         }
     };

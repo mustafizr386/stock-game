@@ -37,10 +37,9 @@ const Sidebar = () => {
         <div className="plus">{displayText}</div>
       </div>
       <ul>
-        <li id="Home">Home</li>
-        <li id="About Me">About Me</li>
-        <li id="Skills">Skills</li>
-        <li id="Hobbies">Hobbies</li>
+        <li id="Portfolio">Portfolio</li>
+        <li id="News">News</li>
+        <li id="Market">Market</li>
         <li id="Contact">Contact</li>
       </ul>
     </animated.div>

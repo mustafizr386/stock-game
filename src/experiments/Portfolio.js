@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Pages.css';
 
-const AboutMe = () => {
+const Portfolio = () => {
     const [isHidden, setIsHidden] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [bounce, setDebounce] = useState(false);
@@ -11,7 +11,7 @@ const AboutMe = () => {
         if (!bounce) {
 
             setDebounce(true);
-            if (event.target.id === "About Me") {
+            if (event.target.id === "Portfolio") {
 
                 setIsHidden(false);
                 setTimer(setTimeout(() => {
@@ -65,4 +65,4 @@ const AboutMe = () => {
 };
 
 
-export default AboutMe;
+export default Portfolio;
