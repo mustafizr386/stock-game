@@ -8,7 +8,7 @@ import * as d3 from "d3";
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
 
-import Cookies from 'js-cookie';
+
 import Chart from "./effects/Chart";
 import { func } from 'prop-types';
 
@@ -29,7 +29,7 @@ const Market = () => {
     const [day, setDay] = useState("1-1-1990");
     const [time, setTime] = useState("9:30");
 
-
+    const storage = window.localStorage;
 
 
     const layout = [
@@ -39,38 +39,7 @@ const Market = () => {
     ];
 
 
-    const [todayData, setTodayData] = useState(null);
-    const [playerData, setPlayerData] = useState(null);
-    const [historicalData, setHistoricalData] = useState(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const today = await fetch('/Data/Today/Stocks.json');
-                const portfolio = await fetch('/Data/Player/Portfolio.json');
-                const historical = await fetch('/Data/Historical/Stocks.json');
-                if (!today.ok || !portfolio.ok || !historical.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await today.json();
-                setTodayData(data);
-                const data1 = await portfolio.json();
-                setPlayerData(data1);
-                const data2 = await historical.json();
-                setHistoricalData(data2);
-                // if (!cookieValue) {
-                Cookies.set("Today", JSON.stringify(data));
-                Cookies.set("Portfolio", JSON.stringify(data1));
-                Cookies.set("Historical", JSON.stringify(data2));
-                //}
-
-            } catch (error) {
-                console.error('Error fetching JSON:', error);
-            }
-        }
-
-        fetchData();
-    }, []);
 
 
 
@@ -126,50 +95,57 @@ const Market = () => {
 
 
     function PurchaseForm(props) {
-        const{ticker} = props
+        const { ticker } = props
         const [order, setOrder] = useState(0);
         const [buy, setBuy] = useState(true);
-        const stocks = Cookies.get("Today");
-        const portfolio = Cookies.get("Portfolio");
-
-        const size = Object.keys(JSON.parse(stocks)['Tickers'][ticker]['Prices']).length-1;
-        const intervals = JSON.parse(stocks)['Tickers'][ticker]['Prices'];
-        const psize = Object.keys(JSON.parse(portfolio)).length-1
 
         const handler = (event) => {
+            let stocks = storage.getItem("Today");
+            let portfolio = storage.getItem("Portfolio");
+            let portfolioString = JSON.stringify(JSON.parse(portfolio));
+
+            let size = Object.keys(JSON.parse(stocks)['Tickers'][ticker]['Prices']).length - 1;
+            let intervals = JSON.parse(stocks)['Tickers'][ticker]['Prices'];
+            let psize = Object.keys(JSON.parse(portfolio)).length
+            console.log(psize)
+            console.log(portfolio)
             event.preventDefault();
-            const price = intervals[timetable[size]]['Close'] * order;
+            let price = intervals[timetable[size]]['Close'] * order;
             console.log("purchase:" + price);
-            var personal = JSON.parse(portfolio)[psize]['Cash']['Personal'];
-            var loan = JSON.parse(portfolio)[psize]['Cash']['Loan'];
-            console.log( personal+ loan);
-            if(personal + loan >= price){
+            let personal = JSON.parse(portfolio)[psize]['Cash']['Personal'];
+            let loan = JSON.parse(portfolio)[psize]['Cash']['Loan'];
+            console.log(personal + loan);
+            if (personal + loan >= price) {
                 personal -= price;
-                if(personal < 0){
-                    loan += personal
+                if (personal < 0) {
+                    loan += personal;
+                    personal = 0;
                 }
+                console.log("after purchase:" + (personal + loan));
+                let stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
+                if (JSON.parse(portfolio)[psize]["Stocks"][ticker] == null) {
+                    stockinfo[ticker] = order;
+                }
+                else {
+                    stockinfo[ticker] = parseFloat(stockinfo[ticker]) + parseFloat(order);
+                }
+                console.log(JSON.stringify(stockinfo));
+                const index = (psize + 1).toString();
+
+                const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
+                storage.setItem("Portfolio", JSON.stringify(jsondata));
             }
-            else{
-                setOrder((personal + loan)/intervals[timetable[size]]['Close']);
+            else {
+                setOrder((personal + loan) / intervals[timetable[size]]['Close']);
+
             }
-            console.log("after purchase:" + personal + loan);
-            var stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
-            if(JSON.parse(portfolio)[psize]["Stocks"][ticker] == null){
-                stockinfo[ticker] = order;
-            }
-            else{
-                stockinfo[ticker] = parseInt(stockinfo[ticker]) + parseInt(order);
-            }
-            console.log(stockinfo);
-            var index = parseInt(psize+1);
-            const jsondata = [JSON.parse(portfolio),{index:{"Day":day,"Time":time,"Cash":{"Personal":personal,"Loan":loan},"Stocks":{stockinfo},"Options":{}}}];
-            console.log(jsondata);
+
         }
         return (
             <form onSubmit={handler} >
-                <input type="number" value={order} onChange={(e) => setOrder(e.target.value)}/>
-                <input type="submit" value="buy" onClick={(e) => setBuy(true)}/>
-                <input type="submit" value="sell" onClick={(e) => setBuy(false)}/>
+                <input type="number" value={order} onChange={(e) => setOrder(e.target.value)} />
+                <input type="submit" value="buy" onClick={(e) => setBuy(true)} />
+                <input type="submit" value="sell" onClick={(e) => setBuy(false)} />
             </form>
         )
     }
@@ -197,20 +173,21 @@ const Market = () => {
                             <div key="rockclimb">
                                 <div class="tickerBox">
 
-                                    {todayData ? todayData.Tickers.DC.Name : ''}
+                                    {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['DC']['Name']) }
                                     <div>
 
-                                        {Cookies.get("Today") ? <Chart ticker={'DC'} width={chartWidth} height={200} timescale={"Today"} /> :  'Data error stocks'}
-                                        {Cookies.get("Portfolio") ? <PurchaseForm ticker ='DC'/> : "data error forms"}
+                                        <Chart ticker={'DC'} width={chartWidth} height={200} timescale={"Today"} /> 
+                                        <PurchaseForm ticker='DC' />
                                     </div>
                                 </div>
                             </div>
                             <div key="brakejob">
                                 <div class="tickerBox">
-                                    {todayData ? todayData.Tickers.S.Name : ''}
+                                    {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['B']['Name'])}
                                     <div>
 
-                                        {Cookies.get("Today") ?<Chart ticker={'B'} width={chartWidth} height={200} timescale={"Today"} /> : 'Data error stocks'}
+                                        <Chart ticker={'B'} width={chartWidth} height={200} timescale={"Today"} /> 
+                                         <PurchaseForm ticker='B' />
                                     </div>
                                 </div>
                             </div>

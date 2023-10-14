@@ -4,7 +4,6 @@ import * as d3 from "d3";
 import "./Chart.css";
 import Candle from "./Candle";
 import CrossHairs from "./CrossHairs";
-import Cookies from 'js-cookie';
 
 const Chart = props => {
   const { ticker, width: chart_width, height: chart_height, timescale } = props;
@@ -12,6 +11,9 @@ const Chart = props => {
 
   // last_bar_idx should default to the last bar in the data, or else be sure passed-in value doesn't exceed the last bar
   // last_bar_idx = last_bar_idx > 0 ? Math.min(last_bar_idx, data.length - 1) : data.length - 1;
+
+
+  const storage = window.localStorage;
 
   const [mouseCoords, setMouseCoords] = useState({
     x: 0,
@@ -24,10 +26,10 @@ const Chart = props => {
   const getData = () => {
 
       
-    if (Cookies.get("Today") && timescale === "Today") {
+    if (storage.getItem("Today") && timescale === "Today") {
       const timetable = ['9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00'];
-      const size = Object.keys(JSON.parse(Cookies.get("Today"))['Tickers'][ticker]['Prices']).length;
-      const intervals = JSON.parse(Cookies.get("Today"))['Tickers'][ticker]['Prices'];
+      const size = Object.keys(JSON.parse(storage.getItem("Today"))['Tickers'][ticker]['Prices']).length;
+      const intervals = JSON.parse(storage.getItem("Today"))['Tickers'][ticker]['Prices'];
       let lastclose = null;
 
 

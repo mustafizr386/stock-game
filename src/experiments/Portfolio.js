@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './Pages.css';
 
 const Portfolio = () => {
-    const [isHidden, setIsHidden] = useState(true);
-    const [isVisible, setIsVisible] = useState(false);
+    const [isHidden, setIsHidden] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const [bounce, setDebounce] = useState(false);
     const [timer, setTimer] = useState(null);
 
