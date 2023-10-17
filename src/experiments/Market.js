@@ -26,23 +26,16 @@ const Market = () => {
 
     const [timer, setTimer] = useState(null);
 
-    const [day, setDay] = useState("1-1-1990");
-    const [time, setTime] = useState("9:30");
-
     const storage = window.localStorage;
 
+    const day = storage.getItem("Day");
+    const time = storage.getItem("Time");
 
     const layout = [
         { i: "rockclimb", x: 0, y: 0, w: 1, h: 1 },
         { i: "brakejob", x: 1, y: 0, w: 1, h: 1 },
         { i: "carposter", x: 2, y: 0, w: 1, h: 1 }
     ];
-
-
-
-
-
-
 
 
 
@@ -100,44 +93,57 @@ const Market = () => {
         const [buy, setBuy] = useState(true);
 
         const handler = (event) => {
+            
             let stocks = storage.getItem("Today");
             let portfolio = storage.getItem("Portfolio");
             let portfolioString = JSON.stringify(JSON.parse(portfolio));
-
             let size = Object.keys(JSON.parse(stocks)['Tickers'][ticker]['Prices']).length - 1;
             let intervals = JSON.parse(stocks)['Tickers'][ticker]['Prices'];
             let psize = Object.keys(JSON.parse(portfolio)).length
-            console.log(psize)
-            console.log(portfolio)
             event.preventDefault();
             let price = intervals[timetable[size]]['Close'] * order;
-            console.log("purchase:" + price);
             let personal = JSON.parse(portfolio)[psize]['Cash']['Personal'];
             let loan = JSON.parse(portfolio)[psize]['Cash']['Loan'];
-            console.log(personal + loan);
-            if (personal + loan >= price) {
-                personal -= price;
-                if (personal < 0) {
-                    loan += personal;
-                    personal = 0;
-                }
-                console.log("after purchase:" + (personal + loan));
-                let stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
-                if (JSON.parse(portfolio)[psize]["Stocks"][ticker] == null) {
-                    stockinfo[ticker] = order;
+            let stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
+            if(buy){
+                if (personal + loan >= price) {
+                    personal -= price;
+                    if (personal < 0) {
+                        loan += personal;
+                        personal = 0;
+                    }
+                    
+                    if (JSON.parse(portfolio)[psize]["Stocks"][ticker] == null) {
+                        stockinfo[ticker] = order;
+                    }
+                    else {
+                        stockinfo[ticker] = parseFloat(stockinfo[ticker]) + parseFloat(order);
+                    }
+                    const index = (psize + 1).toString();
+
+                    const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
+                    storage.setItem("Portfolio", JSON.stringify(jsondata));
                 }
                 else {
-                    stockinfo[ticker] = parseFloat(stockinfo[ticker]) + parseFloat(order);
+                    setOrder((personal + loan) / intervals[timetable[size]]['Close']);
+
                 }
-                console.log(JSON.stringify(stockinfo));
-                const index = (psize + 1).toString();
-
-                const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
-                storage.setItem("Portfolio", JSON.stringify(jsondata));
             }
-            else {
-                setOrder((personal + loan) / intervals[timetable[size]]['Close']);
+            else{
+                if (stockinfo[ticker] >= order) {
+                    personal += price;    
 
+                    stockinfo[ticker] = parseFloat(stockinfo[ticker]) - parseFloat(order);
+                    
+                    const index = (psize + 1).toString();
+
+                    const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
+                    storage.setItem("Portfolio", JSON.stringify(jsondata));
+                }
+                else {
+                    setOrder(stockinfo[ticker]);
+
+                }
             }
 
         }
