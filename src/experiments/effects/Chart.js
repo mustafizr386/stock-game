@@ -41,7 +41,7 @@ const Chart = props => {
           const close = intervals[timetable[i]]['Close'];
           const high = intervals[timetable[i]]['High'];
           const low = intervals[timetable[i]]['Low'];
-          const volume = intervals[timetable[i]]['BuyVolume'];
+          const volume = intervals[timetable[i]]['Volume'];
           lastclose = intervals[timetable[i]]['Close'];
           return {
             time: i,

@@ -28,8 +28,6 @@ const Market = () => {
 
     const storage = window.localStorage;
 
-    const day = storage.getItem("Day");
-    const time = storage.getItem("Time");
 
     const layout = [
         { i: "rockclimb", x: 0, y: 0, w: 1, h: 1 },
@@ -93,59 +91,66 @@ const Market = () => {
         const [buy, setBuy] = useState(true);
 
         const handler = (event) => {
-            
-            let stocks = storage.getItem("Today");
-            let portfolio = storage.getItem("Portfolio");
-            let portfolioString = JSON.stringify(JSON.parse(portfolio));
-            let size = Object.keys(JSON.parse(stocks)['Tickers'][ticker]['Prices']).length - 1;
-            let intervals = JSON.parse(stocks)['Tickers'][ticker]['Prices'];
-            let psize = Object.keys(JSON.parse(portfolio)).length
             event.preventDefault();
-            let price = intervals[timetable[size]]['Close'] * order;
-            let personal = JSON.parse(portfolio)[psize]['Cash']['Personal'];
-            let loan = JSON.parse(portfolio)[psize]['Cash']['Loan'];
-            let stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
-            if(buy){
-                if (personal + loan >= price) {
-                    personal -= price;
-                    if (personal < 0) {
-                        loan += personal;
-                        personal = 0;
-                    }
-                    
-                    if (JSON.parse(portfolio)[psize]["Stocks"][ticker] == null) {
-                        stockinfo[ticker] = order;
+            if (storage.getItem("Time") !== "16:00") {
+         
+                let day = storage.getItem("Day");
+                let time = storage.getItem("Time");
+                
+                let stocks = storage.getItem("Today");
+                let portfolio = storage.getItem("Portfolio");
+                let portfolioString = JSON.stringify(JSON.parse(portfolio));
+                let size = Object.keys(JSON.parse(stocks)['Tickers'][ticker]['Prices']).length - 1;
+                let intervals = JSON.parse(stocks)['Tickers'][ticker]['Prices'];
+                let psize = Object.keys(JSON.parse(portfolio)).length
+                let price = intervals[timetable[size]]['Close'] * order;
+                let personal = JSON.parse(portfolio)[psize]['Cash']['Personal'];
+                let loan = JSON.parse(portfolio)[psize]['Cash']['Loan'];
+                let stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
+                if (buy) {
+                    if (personal + loan >= price) {
+                        personal -= price;
+                        if (personal < 0) {
+                            loan += personal;
+                            personal = 0;
+                        }
+
+                        if (JSON.parse(portfolio)[psize]["Stocks"][ticker] == null) {
+                            stockinfo[ticker] = order;
+                        }
+                        else {
+                            stockinfo[ticker] = parseFloat(stockinfo[ticker]) + parseFloat(order);
+                        }
+                        const index = (psize + 1).toString();
+
+                        const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
+                        storage.setItem("Portfolio", JSON.stringify(jsondata));
                     }
                     else {
-                        stockinfo[ticker] = parseFloat(stockinfo[ticker]) + parseFloat(order);
-                    }
-                    const index = (psize + 1).toString();
+                        setOrder((personal + loan) / intervals[timetable[size]]['Close']);
 
-                    const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
-                    storage.setItem("Portfolio", JSON.stringify(jsondata));
+                    }
                 }
                 else {
-                    setOrder((personal + loan) / intervals[timetable[size]]['Close']);
+                    if (stockinfo[ticker] >= order) {
+                        personal += price;
 
+                        stockinfo[ticker] = parseFloat(stockinfo[ticker]) - parseFloat(order);
+
+                        const index = (psize + 1).toString();
+
+                        const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
+                        storage.setItem("Portfolio", JSON.stringify(jsondata));
+                    }
+                    else {
+                        setOrder(stockinfo[ticker]);
+
+                    }
                 }
             }
             else{
-                if (stockinfo[ticker] >= order) {
-                    personal += price;    
-
-                    stockinfo[ticker] = parseFloat(stockinfo[ticker]) - parseFloat(order);
-                    
-                    const index = (psize + 1).toString();
-
-                    const jsondata = JSON.parse("{" + portfolioString.substring(1, portfolioString.length - 1) + ",\"" + index + "\":" + JSON.stringify({ "Day": day, "Time": time, "Cash": { "Personal": personal, "Loan": loan }, "Stocks": stockinfo, "Options": {} }) + "}");
-                    storage.setItem("Portfolio", JSON.stringify(jsondata));
-                }
-                else {
-                    setOrder(stockinfo[ticker]);
-
-                }
+                console.log("after market hours retard 🤦‍♂️");
             }
-
         }
         return (
             <form onSubmit={handler} >
@@ -179,10 +184,10 @@ const Market = () => {
                             <div key="rockclimb">
                                 <div class="tickerBox">
 
-                                    {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['DC']['Name']) }
+                                    {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['DC']['Name'])}
                                     <div>
 
-                                        <Chart ticker={'DC'} width={chartWidth} height={200} timescale={"Today"} /> 
+                                        <Chart ticker={'DC'} width={chartWidth} height={200} timescale={"Today"} />
                                         <PurchaseForm ticker='DC' />
                                     </div>
                                 </div>
@@ -192,8 +197,8 @@ const Market = () => {
                                     {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['B']['Name'])}
                                     <div>
 
-                                        <Chart ticker={'B'} width={chartWidth} height={200} timescale={"Today"} /> 
-                                         <PurchaseForm ticker='B' />
+                                        <Chart ticker={'B'} width={chartWidth} height={200} timescale={"Today"} />
+                                        <PurchaseForm ticker='B' />
                                     </div>
                                 </div>
                             </div>

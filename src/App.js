@@ -10,7 +10,7 @@ import Portfolio from './experiments/Portfolio';
 import News from './experiments/News';
 import Market from './experiments/Market';
 import Contact from './experiments/Contact';
-
+import Clock from './experiments/effects/Clock';
 
 function App() {
 
@@ -24,24 +24,11 @@ function App() {
     const [portfolio, setPortfolio] = useState(null);
     const [historical, setHistorical] = useState(null);
 
-    const timetable = {"9:30": "9:30AM","10:00": "10:00AM","10:30": "10:30AM","11:00": "11:00AM","11:30": "11:30AM","12:00": "12:00PM","12:30": "12:30PM","13:00": "1:00PM","13:30": "1:30PM","14:00": "2:00PM","14:30": "2:30PM","15:00": "3:00PM","15:30": "3:30PM","16:00": "4:00PM"};
-
-    const handleClick = (event) => {
-
-        if (!bounce) {
-            setDebounce(true);
-            if (event.target.id && event.target.tagName === "LI") {
-
-                setIsVisible(false);
-                setTimer(setTimeout(() => {
-                    setIsHidden(true);
-                }, 500))
-                return () => clearTimeout(timer);
-            }
-        }
-    };
     
 
+
+
+    
 
     const fadeOutStyle = {
         opacity: isVisible ? 1 : 0,
@@ -49,7 +36,6 @@ function App() {
     };
 
 
-    document.addEventListener('click', handleClick);
 
     const load = () =>{
         tempstorage.setItem("start",true);
@@ -66,12 +52,14 @@ function App() {
     }
 
     const newGame = () =>{
+        
         tempstorage.setItem("start",true);
         storage.setItem("Today", JSON.stringify(today));
         storage.setItem("Portfolio", JSON.stringify(portfolio));
         storage.setItem("Historical", JSON.stringify(historical));
         storage.setItem("Day", "1-1-1990");
         storage.setItem("Time","9:30");
+        window.dispatchEvent(new Event("setTime"));
         setIsVisible(false);
         setTimer(setTimeout(() => {
             setIsHidden(true);
@@ -105,7 +93,7 @@ function App() {
 
 
     return (
-
+        
         <div className="App">
             
             <div class={isHidden || tempstorage.getItem("start") ? "banner" :"bannerHome"}>
@@ -120,8 +108,9 @@ function App() {
                     </div>
                 </div>
                 <div class={tempstorage.getItem("start") ? '' : 'hidden'}>
-                <p>{storage.getItem("Day")} </p>
-                <p>{timetable[storage.getItem("Time")]}</p>
+    
+                <Clock/>
+                <button onClick={newGame}>restart</button>
             </div>
             </div>
 
