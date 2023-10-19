@@ -3,7 +3,7 @@ import classNames from "classnames";
 import "./Chart.css";
 const Candle = props => {
   const { data, x, candle_width, pixelFor } = props;
-
+//code i stole, idk how this even works lmao
   const up = data.close > data.open;
   const bar_top = pixelFor(up ? data.close : data.open);
   const bar_bottom = pixelFor(up ? data.open : data.close);

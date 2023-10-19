@@ -7,7 +7,7 @@ const News = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [bounce, setDebounce] = useState(false);
 
-
+    //this will have useful stuff.... eventually
     const [Java, JavaFlipped] = useState(false);
     const [Python, PythonFlipped] = useState(false);
     const [JavaScript, JavaScriptFlipped] = useState(false);

@@ -1,16 +1,13 @@
-import React, { useEffect, useState, createElement, Component } from 'react';
-import { useSpring, animated } from 'react-spring';
-import ReactDOM from "react-dom";
+import React, {  useState } from 'react';
+
 import './Pages.css';
 import GridLayout from "react-grid-layout";
-import * as d3 from "d3";
 
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
 
 
 import Chart from "./effects/Chart";
-import { func } from 'prop-types';
 
 const Market = () => {
     const [isHidden, setIsHidden] = useState(true);
@@ -20,7 +17,6 @@ const Market = () => {
     const [resizeBounce, setResizeBounce] = useState(true);
 
     const timetable = ['9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00'];
-    const [updated, setUpdated] = useState(false);
 
     const [chartWidth, setChartWidth] = useState(200);
 
@@ -28,7 +24,7 @@ const Market = () => {
 
     const storage = window.localStorage;
 
-
+    //change this shitty system
     const layout = [
         { i: "rockclimb", x: 0, y: 0, w: 1, h: 1 },
         { i: "brakejob", x: 1, y: 0, w: 1, h: 1 },
@@ -37,37 +33,35 @@ const Market = () => {
 
 
 
-    const getHistorical = () => {
-
-    }
 
 
     const handleClick = (event) => {
+        //currently handles the container sizes for the market and making things become visibile on button click
         if (!bounce) {
             setDebounce(true);
-            if (event.target.id == "Market") {
+            if (event.target.id === "Market") {
                 setIsHidden(false);
                 setTimer(setTimeout(() => {
                     setIsVisible(true);
                     setGridSize(document.getElementById("container").offsetWidth - 100);
-                }, 1000));
-                return () => clearTimeout(timer);
+                }, 1000));     
                 window.addEventListener('resize', updateSize);
+                return () => clearTimeout(timer);
             }
-            else if (event.target.id && event.target.tagName == "LI") {
+            else if (event.target.id && event.target.tagName === "LI") {
 
                 setIsVisible(false);
                 setTimer(setTimeout(() => {
                     setIsHidden(true);
                 }, 500));
-                return () => clearTimeout(timer);
                 window.removeEventListener('resize', updateSize);
+                return () => clearTimeout(timer);
             }
         }
     };
 
     const updateSize = (event) => {
-
+        //stupid attempt for having a constantly resizing box, change this so the number of columns changes instead
         if (isVisible && resizeBounce) {
             setResizeBounce(false);
             setGridSize(document.getElementById("container").offsetWidth - 100);
@@ -76,7 +70,7 @@ const Market = () => {
         }
     }
 
-
+    //trash code i stole from chatgpt for the fade, i should clean this up
     const fadeOutStyle = {
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 1s ease-out'
@@ -91,9 +85,11 @@ const Market = () => {
         const [buy, setBuy] = useState(true);
 
         const handler = (event) => {
+            //stops the page refresh and makes sure orders are only done during market hours.
             event.preventDefault();
             if (storage.getItem("Time") !== "16:00") {
          
+                //a trillion different variables to help make this more "organized." good luck fixing this idiot
                 let day = storage.getItem("Day");
                 let time = storage.getItem("Time");
                 
@@ -107,6 +103,8 @@ const Market = () => {
                 let personal = JSON.parse(portfolio)[psize]['Cash']['Personal'];
                 let loan = JSON.parse(portfolio)[psize]['Cash']['Loan'];
                 let stockinfo = JSON.parse(portfolio)[psize]["Stocks"];
+
+                //logic for when the purchase/sale is made.
                 if (buy) {
                     if (personal + loan >= price) {
                         personal -= price;
@@ -184,7 +182,7 @@ const Market = () => {
                             <div key="rockclimb">
                                 <div class="tickerBox">
 
-                                    {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['DC']['Name'])}
+                                    {JSON.stringify(JSON.parse(storage.getItem("Historical"))['Tickers']['DC']['Name'])}
                                     <div>
 
                                         <Chart ticker={'DC'} width={chartWidth} height={200} timescale={"Today"} />
@@ -194,11 +192,21 @@ const Market = () => {
                             </div>
                             <div key="brakejob">
                                 <div class="tickerBox">
-                                    {JSON.stringify(JSON.parse(storage.getItem("Today"))['Tickers']['B']['Name'])}
+                                    {JSON.stringify(JSON.parse(storage.getItem("Historical"))['Tickers']['B']['Name'])}
                                     <div>
 
                                         <Chart ticker={'B'} width={chartWidth} height={200} timescale={"Today"} />
                                         <PurchaseForm ticker='B' />
+                                    </div>
+                                </div>
+                            </div>
+                            <div key="carposter">
+                                <div class="tickerBox">
+                                    {JSON.stringify(JSON.parse(storage.getItem("Historical"))['Tickers']['SM']['Name'])}
+                                    <div>
+
+                                        <Chart ticker={'SM'} width={chartWidth} height={200} timescale={"Today"} />
+                                        <PurchaseForm ticker='SM' />
                                     </div>
                                 </div>
                             </div>

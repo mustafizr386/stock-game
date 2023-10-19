@@ -8,7 +8,7 @@ const Contact = () => {
     const [bounce, setDebounce] = useState(false);
 
     const [timer, setTimer] = useState(null);
-
+    //i have no clue what i'll do with this
 
     const handleClick = (event) => {
         if (!bounce) {

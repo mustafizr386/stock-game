@@ -4,7 +4,7 @@ import "./Chart.css";
 
 const CrossHairs = props => {
   const { x, y, chart_dims } = props;
-
+//code i stole, idk how this even works lmao
   if (x + y === 0) {
     return <></>;
   }

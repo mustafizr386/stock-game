@@ -6,7 +6,7 @@ function FlipCard(props) {
   const { front, back, frontCSS, backCSS, click, clickHandler} = props;
 
 
-
+//most likely useless code, maybe might use to make the market look more spiffy?
 
   return (
     <div style={{ paddingRight: '20px', paddingBottom: '20px', position: 'relative', float: 'left' }}>

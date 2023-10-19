@@ -12,7 +12,7 @@ const Chart = props => {
   // last_bar_idx should default to the last bar in the data, or else be sure passed-in value doesn't exceed the last bar
   // last_bar_idx = last_bar_idx > 0 ? Math.min(last_bar_idx, data.length - 1) : data.length - 1;
 
-
+//most code i stole, i sorta know how this works
   const storage = window.localStorage;
 
   const [mouseCoords, setMouseCoords] = useState({
@@ -22,7 +22,7 @@ const Chart = props => {
 
 
 
-
+//add some event listeners so the graph isn't out of date bruh
   const getData = () => {
 
       

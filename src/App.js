@@ -13,7 +13,7 @@ import Contact from './experiments/Contact';
 import Clock from './experiments/effects/Clock';
 
 function App() {
-
+//variables for eslint to freak out over. stop coding like a neanderthal smh
     const [isHidden, setIsHidden] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [bounce, setDebounce] = useState(false);
@@ -36,7 +36,7 @@ function App() {
     };
 
 
-
+    //to use what's in the local storage or not to use what's in the local storage, that is the question.
     const load = () =>{
         tempstorage.setItem("start",true);
         if(storage.getItem("Today")){
@@ -67,7 +67,7 @@ function App() {
         
     }
 
-
+    //json loading
     useEffect(() => {
         async function fetchData() {
             try {

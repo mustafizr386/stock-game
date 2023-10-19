@@ -7,6 +7,7 @@ const Portfolio = () => {
     const [bounce, setDebounce] = useState(false);
     const [timer, setTimer] = useState(null);
 
+    //everything here will be nuked for the portfolio graph and other garbage i think up of..... eventually.
     const handleClick = (event) => {
         if (!bounce) {
 

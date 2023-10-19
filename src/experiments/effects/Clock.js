@@ -11,7 +11,7 @@ function Clock() {
     const [day, setDay] = useState(storage.getItem("Day"));
 
     useEffect(() => {
-
+        //code for keeping clock and day updated
         const intervalId = setInterval(() => {
             if (timetable[storage.getItem("Time")] && tempstorage.getItem("start")) {
                 incrementClock();
@@ -36,23 +36,34 @@ function Clock() {
 
 
     function incrementClock() {
-        
+
         let stocks = JSON.parse(storage.getItem("Today"));
         let tickerlist = Object.keys(stocks["Tickers"]);
 
         tickerlist.forEach(element => {
-            let change = (Math.random()*.06)-.03;
-            let uppervariation = (Math.random()*.02) + .03 + change;
-            let lowervariation = (Math.random()*-.02) - .03 + change;
+            //CODE FOR HOURLY MARKET MOVEMENT EXTREMELY IMPORTANT!!!!---------------------------------------------------------------------------------------------------------------------------------
+            let change = (Math.random() * .06) - .03;
+            let uppervariation = (Math.random() * .02) + change;
+            let lowervariation = (Math.random() * -.02) + change;
             let info = stocks["Tickers"][element]["Prices"];
             let reference = parseFloat(info[storage.getItem("Time")]["Close"]);
-            let close = (reference +(reference * change)).toFixed(3);
-            let high = (reference +(reference * uppervariation)).toFixed(3);
-            let low = (reference +(reference * lowervariation)).toFixed(3);
-            let combined = {"Open": reference, "Close" : parseFloat(close), "Volume" : 1000, "Shares" : 1000, "High" : parseFloat(high), "Low" : parseFloat(low)};
+            let close = (reference + (reference * change)).toFixed(3);
+            let high = (reference + (reference * uppervariation)).toFixed(3);
+            let low = (reference + (reference * lowervariation)).toFixed(3);
+
+            //storing information useful for historic data !!!!INFO FOR VOLUME AND SHARES MISSING!!!!
+            if (high > stocks["Tickers"][element]["High"]) {
+                stocks["Tickers"][element]["High"] = parseFloat(high);
+            }
+            if (low < stocks["Tickers"][element]["Low"]) {
+                stocks["Tickers"][element]["Low"] = parseFloat(low);
+            }
+            stocks["Tickers"][element]["Close"] = parseFloat(close);
+            //formatting for data json
+            let combined = { "Open": reference, "Close": parseFloat(close), "Volume": 1000, "Shares": 1000, "High": parseFloat(high), "Low": parseFloat(low) };
             stocks["Tickers"][element]["Prices"][timetable[storage.getItem("Time")]] = combined;
         });
-    
+
 
         storage.setItem("Today", JSON.stringify(stocks));
         storage.setItem("Time", timetable[storage.getItem("Time")]);
@@ -60,8 +71,10 @@ function Clock() {
 
 
     const nextDay = () => {
+        //formating and incrementation logic for day
         storage.setItem("Time", "9:30");
         setTime("9:30");
+
         let data = storage.getItem("Day").split("-");
         if (data[1] === "20") {
             if (data[0] === "4") {
@@ -76,6 +89,36 @@ function Clock() {
         else {
             data[1] = String(parseInt(data[1]) + 1);
         }
+
+        let stocks = JSON.parse(storage.getItem("Today"));
+        let tickerlist = Object.keys(stocks["Tickers"]);
+        let historical = JSON.parse(storage.getItem("Historical"));
+
+        tickerlist.forEach(element => {
+            //Storing daily data into historical json format
+            let ref = stocks["Tickers"][element];
+            let combined = { "Open": parseFloat(ref["Open"]), "Volume": parseFloat(ref["Volume"]), "Shares": parseFloat(ref["Shares"]), "High": parseFloat(ref["High"]), "Low": parseFloat(ref["Low"]), "Close": parseFloat(ref["Close"]) };
+            historical["Tickers"][element][storage.getItem("Day")] = combined;
+
+            //CODE FOR OPENING MARKET HOURS EXTREMELY IMPORTANT!!!!---------------------------------------------------------------------------------------------------------------------------------
+            let openingmovement = (Math.random() * .08) - .04;
+            let uppervariation = (Math.random() * .02) + openingmovement;
+            let lowervariation = (Math.random() * -.02) + openingmovement;
+            let close = (parseFloat(ref["Close"]) + (parseFloat(ref["Close"]) * openingmovement)).toFixed(3);
+            let high = (parseFloat(ref["Close"]) + (parseFloat(ref["Close"]) * uppervariation)).toFixed(3);
+            let low = (parseFloat(ref["Close"]) + (parseFloat(ref["Close"]) * lowervariation)).toFixed(3);
+
+            let newprices = {"9:30":{"Open": parseFloat(ref["Close"]),"Close": parseFloat(close),"Volume": 300,"Shares": 450000,"High": parseFloat(high),"Low": parseFloat(low)}}
+            stocks["Tickers"][element]["Prices"] = newprices;
+            stocks["Tickers"][element]["Open"] = parseFloat(ref["Close"]);
+            stocks["Tickers"][element]["Close"] = parseFloat(close);
+            stocks["Tickers"][element]["High"] = parseFloat(high);
+            stocks["Tickers"][element]["Low"] =parseFloat(low);
+            //stocks["Tickers"][element]["Volume"] =
+            //stocks["Tickers"][element]["Shares"] =
+        });
+        storage.setItem("Historical", JSON.stringify(historical));
+        storage.setItem("Today", JSON.stringify(stocks));
         let assembled = String(data[0] + "-" + data[1] + "-" + data[2]);
         storage.setItem("Day", assembled);
         setDay(assembled);

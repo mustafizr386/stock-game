@@ -1,7 +1,12 @@
 {
 	"Tickers": {
 		"DC": {
-			"Name": "Defense Consolidated",			
+			"Open": 12,
+			"Close": 12.5,
+			"High": 12.6,
+			"Low" : 11.8,
+			"Volume": 3000,
+			"Shares": 80000,
 			"Prices": {
 				"9:30": {
 					"Open": 12,
@@ -10,27 +15,16 @@
 					"Shares": 80000,
 					"High": 12.6,
 					"Low": 11.8
-				},
-				"10:00": {
-					"Open": 12.5,
-					"Close": 13.5,
-					"Volume": 3000,
-					"Shares": 80000,
-					"High": 13.8,
-					"Low": 12.2
-				},
-				"10:30": {
-					"Open": 13.5,
-					"Close": 15.5,
-					"Volume": 3000,
-					"Shares": 80000,
-					"High": 16,
-					"Low": 13.2
 				}
 			}
 		},
-		"S": {
-			"Name": "Retail Consolidated",	
+		"S": {	
+			"Open": 22,
+			"Close": 21,
+			"High": 23,
+			"Low": 20,
+			"Volume": 300,
+			"Shares": 450000,
 			"Prices": {
 				"9:30": {
 					"Open": 22,
@@ -43,7 +37,12 @@
 			}
 		},
 		"B": {
-			"Name": "First Patriot Bank",
+			"Open": 20,
+			"Close": 22,
+			"High": 23,
+			"Low": 19,
+			"Volume": 30000,
+			"Shares": 4000000,
 			"Prices": {
 				"9:30": {
 					"Open": 20,
@@ -55,29 +54,39 @@
 				}
 			}
 		},
-		"IC": {
-			"Name": "Industry Consolidated",			
+		"IC": {	
+			"Open": 38,
+			"Close": 41,
+			"High": 41,
+			"Low": 38,
+			"Volume": 3000,
+			"Shares": 12000000,
 			"Prices": {
 				"9:30": {
-					"Open": 8,
+					"Open": 38,
 					"Close": 41,
 					"Volume": 3000,
 					"Shares": 12000000,
 					"High": 41,
-					"Low": 7.9
+					"Low": 38
 				}
 			}
 		},
-		"SM": {
-			"Name": "Specific Motors",			
+		"SM": {	
+			"Open": 85,
+			"Close": 81,
+			"High": 86,
+			"Low": 80.5,
+			"Volume": 30000,
+			"Shares": 60000000,
 			"Prices": {
 				"9:30": {
 					"Open": 85,
-					"Close": 41,
+					"Close": 81,
 					"Volume": 30000,
 					"Shares": 60000000,
 					"High": 86,
-					"Low": 40
+					"Low": 80.5
 				}
 			}
 		}
